@@ -3,7 +3,7 @@
         <div class="row">
             <div class="medium-6 columns">
                 <div class="primary callout">
-                    <form>
+                    <form @submit.prevent="login()">
                         <div class="row">
                             <label>Name:
                                 <input type="text" name="name" id="name" required>
@@ -15,6 +15,9 @@
                             <a href="#" class="button clear">Cancel</a>
                         </div>
                     </form>
+                    <div class="row">
+                        Don't have account? <router-link :to="{ name: 'Register' }">Register</router-link> one now!
+                    </div>
                 </div>
             </div>
         </div>
@@ -24,7 +27,27 @@
     export default {
         name: 'login',
         data(){
-            return {}
+            return {
+                name: '',
+                password: ''
+            }
+        },
+        methods: {
+            login () {
+                this.$store.dispatch('login', {
+                    user: {
+                        email: this.email,
+                        password: this.password
+                    }
+                }).then(() => {
+                    this.$router.push('Hallo')
+                })
+            },
+            authenticate (provider) {
+                this.$store.dispatch('authenticate', { provider }).then(() => {
+                    this.$router.push('Hallo')
+                })
+            }
         }
     }
 </script>

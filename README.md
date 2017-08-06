@@ -28,3 +28,16 @@ npm test
 ```
 
 For detailed explanation on how things work, checkout the [guide](http://vuejs-templates.github.io/webpack/) and [docs for vue-loader](http://vuejs.github.io/vue-loader).
+
+Requirements
+1. User registration
+2. User login
+3. Add items
+4. View item details
+5. Edit item
+6. Delete item
+7. View all items
+8. Create order
+9. Order an item / add to cart
+10. Remove item from an order
+11. Filter /search through items and orders

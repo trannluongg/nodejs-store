@@ -6,6 +6,7 @@ import 'script-loader!foundation-sites/dist/js/foundation.min';
 import Vue from 'vue'
 import App from './App'
 import router from './router'
+import store from './store'
 import Navigation from './components/Navigation.vue'
 Vue.component('navigation', Navigation)
 
@@ -22,6 +23,7 @@ Vue.config.productionTip = false
 new Vue({
   el: '#app',
   router,
+  store,
   template: '<App/>',
-  components: { App}
+  components: { App }
 })
