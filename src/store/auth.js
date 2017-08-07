@@ -46,5 +46,10 @@ export default {
                 })
             })
         }
+    },
+    getters: {
+        isAuthenticated: state => {
+            return state.isAuthenticated
+        }
     }
 }

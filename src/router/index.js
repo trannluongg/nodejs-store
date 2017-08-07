@@ -56,7 +56,7 @@ router.beforeEach(function (to, from, next) {
             }
         } else {
             if (vueAuthInstance.isAuthenticated()) {
-                router.push({ name: 'Items' })
+                router.push({ name: '/' })
             } else {
                 next()
             }

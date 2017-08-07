@@ -6,10 +6,10 @@
                     <form @submit.prevent="login()">
                         <div class="row">
                             <label>Name:
-                                <input type="text" name="name" id="name" required>
+                                <input type="text" name="name" id="name" required v-model="name">
                             </label>
                             <label>Password:
-                                <input type="password" name="password" id="password" required>
+                                <input type="password" name="password" id="password" required v-model="password">
                             </label>
                             <button type="submit" class="button">Login</button>
                             <a href="#" class="button clear">Cancel</a>
@@ -36,16 +36,16 @@
             login () {
                 this.$store.dispatch('login', {
                     user: {
-                        email: this.email,
+                        name: this.name,
                         password: this.password
                     }
                 }).then(() => {
-                    this.$router.push('Hello')
+                    this.$router.push('/hello')
                 })
             },
             authenticate (provider) {
                 this.$store.dispatch('authenticate', { provider }).then(() => {
-                    this.$router.push('Hello')
+                    this.$router.push('/hello')
                 })
             }
         }
