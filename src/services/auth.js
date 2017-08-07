@@ -7,7 +7,7 @@ import axios from 'axios'
 Vue.use(VueAxios, axios)
 
 export default new VueAuthenticate(axios, {
-    baseUrl: 'http://localhost:4000',
+    baseUrl: 'http://localhost:3001',
     tokenName: 'access_token',
     requestDataKey: 'data',
     responseDataKey: 'data',

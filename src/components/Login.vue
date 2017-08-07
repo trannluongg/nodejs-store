@@ -40,12 +40,12 @@
                         password: this.password
                     }
                 }).then(() => {
-                    this.$router.push('Hallo')
+                    this.$router.push('Hello')
                 })
             },
             authenticate (provider) {
                 this.$store.dispatch('authenticate', { provider }).then(() => {
-                    this.$router.push('Hallo')
+                    this.$router.push('Hello')
                 })
             }
         }
