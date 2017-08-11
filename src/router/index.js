@@ -43,6 +43,11 @@ const router = new Router({
             component: Orders,
             meta: {auth: true}
         },
+        {
+            path: '/items#new-item',
+            name: 'New items',
+            meta: {auth: true}
+        },
     ]
 })
 
@@ -52,11 +57,11 @@ router.beforeEach(function (to, from, next) {
             if (vueAuthInstance.isAuthenticated()) {
                 next()
             } else {
-                router.push({ name: 'Login' })
+                router.push({ path: '/login' })
             }
         } else {
             if (vueAuthInstance.isAuthenticated()) {
-                router.push({ name: '/' })
+                router.push({ path: '/' })
             } else {
                 next()
             }

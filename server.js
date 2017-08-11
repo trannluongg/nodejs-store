@@ -27,6 +27,47 @@ app.use(bodyParser.json())
 
  }];
 
+// app.use(require('./storage/items'))
+
+app.get('/', function (req, res) {
+    res.send('vue-authenticate')
+})
+
+app.post('/auth/:provider', function(req, res){
+    switch(req.params.provider) {
+        case 'github':
+            github(req, res)
+            break
+        case 'facebook':
+            facebook(req, res)
+            break
+        case 'google':
+            google(req, res)
+            break
+        case 'twitter':
+            twitter(req, res)
+            break
+        case 'instagram':
+            instagram(req, res)
+            break
+        case 'bitbucket':
+            bitbucket(req, res)
+            break
+        case 'linkedin':
+            linkedin(req, res)
+            break
+        case 'live':
+            live(req, res)
+            break
+        case 'login':
+            login(req, res)
+            break
+        case 'register':
+            register(req, res)
+            break
+    }
+});
+
 function createIdToken(user) {
     return jwt.sign(_.omit(user, 'password'),
         secret.secret, { expiresIn: 60*60*5 });
@@ -78,45 +119,6 @@ function getUserScheme(req) {
         userSearch: userSearch
     }
 }
-
-app.get('/', function (req, res) {
-    res.send('vue-authenticate')
-})
-
-app.post('/auth/:provider', function(req, res){
-    switch(req.params.provider) {
-        case 'github':
-            github(req, res)
-            break
-        case 'facebook':
-            facebook(req, res)
-            break
-        case 'google':
-            google(req, res)
-            break
-        case 'twitter':
-            twitter(req, res)
-            break
-        case 'instagram':
-            instagramAuth(req, res)
-            break
-        case 'bitbucket':
-            bitbucket(req, res)
-            break
-        case 'linkedin':
-            linkedin(req, res)
-            break
-        case 'live':
-            live(req, res)
-            break
-        case 'login':
-            login(req, res)
-            break
-        case 'register':
-            register(req, res)
-            break
-    }
-});
 
 function allowCrossDomain(req, res, next) {
     res.header('Access-Control-Allow-Origin', '*');

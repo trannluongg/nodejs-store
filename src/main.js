@@ -7,8 +7,34 @@ import Vue from 'vue'
 import App from './App'
 import router from './router'
 import store from './store'
-import Navigation from './components/Navigation.vue'
-Vue.component('navigation', Navigation)
+import Tabs from 'vue-tabs-component'
+import VueNotifications from 'vue-notifications'
+import miniToastr from 'mini-toastr'
+require('./components-page')
+
+const toastTypes = {
+    success: 'success',
+    error: 'error',
+    info: 'info',
+    warn: 'warn'
+}
+miniToastr.init({types: toastTypes})
+
+function toast ({title, message, type, timeout, cb}) {
+    return miniToastr[type](message, title, timeout, cb)
+}
+const options = {
+    success: toast,
+    error: toast,
+    info: toast,
+    warn: toast
+}
+VueNotifications.config.timeout = 4000
+
+Vue.use(Tabs)
+Vue.use(VueNotifications, options)
+
+
 
 // window.jQuery = jQuery;
 // window.$ = jQuery;

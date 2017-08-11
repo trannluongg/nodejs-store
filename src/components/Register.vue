@@ -1,6 +1,6 @@
 <template>
     <div class='container'>
-        <div class="medium-6 columns">
+        <div class="medium-6 columns border">
             <div class="primary callout">
                 <form @submit.prevent="register()">
                     <div class="row">
@@ -14,7 +14,7 @@
                             <input type="password" name="password" id="password" required v-model="password">
                         </label>
                         <label>Confirm Password:
-                            <p v-if="password!=password1">Should be the same as the password</p>
+                            <p class="warning" v-if="password!=password1">Should be the same as the password</p>
                             <input type="password" name="password1" id="password1" required v-model="password1">
                         </label>
                         <button type="submit" class="button">Submit</button>
@@ -48,15 +48,19 @@
                         password: this.password
                     }
                 }).then(() => {
-                    this.$router.push('/login')
+                    this.$router.push('/')
                 })
             },
             authenticate (provider) {
                 this.$store.dispatch('authenticate', { provider }).then(() => {
-                    this.$router.push('/login')
+                    this.$router.push('/')
                 })
             }
         }
     }
 </script>
-<style lang="scss"></style>
+<style lang="scss">
+    .warning {
+        color: #ff0000;
+    }
+</style>

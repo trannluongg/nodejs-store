@@ -1,8 +1,8 @@
 <template>
     <div class='container'>
         <div class="row">
-            <div class="medium-6 columns">
-                <div class="primary callout">
+            <div class="medium-6 columns ">
+                <div class="primary callout border">
                     <form @submit.prevent="login()">
                         <div class="row">
                             <label>Name:
@@ -29,7 +29,8 @@
         data(){
             return {
                 name: '',
-                password: ''
+                password: '',
+                errors: []
             }
         },
         methods: {
@@ -41,6 +42,9 @@
                     }
                 }).then(() => {
                     this.$router.push('/hello')
+                }).catch(e => {
+                    this.errors.push(e)
+                    console.log(e)
                 })
             },
             authenticate (provider) {
@@ -51,4 +55,10 @@
         }
     }
 </script>
-<style lang="scss"></style>
+<style lang="scss">
+    .border {
+        width: 95%;
+        margin-left: auto;
+        margin-right: auto;
+    }
+</style>

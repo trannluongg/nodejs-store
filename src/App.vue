@@ -7,8 +7,12 @@
 </template>
 
 <script>
+    import miniToastr from 'mini-toastr'
     export default {
-        name: 'app'
+        name: 'app',
+        mounted () {
+            miniToastr.init()
+        },
     }
 </script>
 
