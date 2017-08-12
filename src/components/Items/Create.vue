@@ -11,6 +11,9 @@
             <label>Quantity:
                 <input type="number" name="amount" id="amount" v-model="amount" required>
             </label>
+            <label>Price:
+                <input type="number" name="price" id="price" v-model="price" required>
+            </label>
             <button class="button success" @click.prevent()="save">Save</button>
             <button class="button secondary clear">Cancel</button>
         </form>
@@ -26,6 +29,7 @@
                 name: '',
                 description: '',
                 amount: '',
+                price: '',
                 item: {}
             }
         },
@@ -34,13 +38,15 @@
                 this.item = {
                     name: this.name,
                     description: this.description,
-                    amount: this.amount
+                    amount: this.amount,
+                    price: this.price,
                 }
                 this.$emit('add', this.item)
                 this.item = {}
                 this.name = ''
                 this.description = ''
                 this.amount = ''
+                this.price = ''
                 VueNotifications.success({message: 'Item added successfully!'})
             }
         },

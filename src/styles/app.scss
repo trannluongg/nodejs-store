@@ -2,9 +2,11 @@
 // https://github.com/vuejs/vue-loader/issues/328
 
 // Load custom Foundation variables
+//@import "../assets/fonts/foundation-icons.css";
 @import "./settings";
 // Load Foundation
 @import "~foundation-sites/scss/foundation";
+
 
 .tabs-component {
   width: 95%;
@@ -86,4 +88,165 @@
     box-shadow: 0 0 10px rgba(0, 0, 0, .05);
     padding: 4em 2em;
   }
+}
+
+.cart {
+  position: fixed;
+  right: 1em;
+  top: 5em;
+  text-align: right;
+  background: rgba(0,0,0,0.85);
+  color: white;
+  z-index: 1;
+
+  .fa-shopping-cart, .cart-size {
+    cursor: pointer;
+    font-size: 1.25em;
+    user-select: none;
+  }
+
+  .fa-shopping-cart {
+    padding: 1em 1em 1em 0;
+  }
+
+  .cart-size {
+    padding: 1em 0 1em 1em;
+  }
+
+
+  .cart-items {
+    padding: 0 1em 2em 1em;
+
+    .cartTable {
+      width: 20em;
+      //background: #66ffcc;
+    }
+
+    .cartImage {
+      width: 4em;
+      height: 4em;
+      margin: 0.5em auto;
+      position: relative;
+      cursor: pointer;
+
+      &:after {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0,0,0,0.25);
+        transition: all 0.1s;
+      }
+
+      i {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        font-size: 1.5em;
+        z-index: 1;
+        transition: all 0.25s;
+      }
+
+      &:hover {
+        i {
+          text-shadow: 1px 2px 5px black;
+        }
+
+        &:after {
+          background: rgba(0,0,0,0.5);
+        }
+      }
+
+      &:active {
+        i {
+          text-shadow: 0px 0px 1px black;
+        }
+      }
+    }
+
+    .cartTotal {
+      border-top: 1px solid white;
+      font-size: 1.25em;
+    }
+
+    .clearCart {
+      float: left;
+      margin-top: 2em;
+      margin-bottom: 1.25em;
+    }
+
+    .checkoutCart {
+      float: right;
+      margin-top: 2em;
+      margin-bottom: 1.25em;
+    }
+  }
+}
+.modalWrapper {
+  position: relative;
+
+  .overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+    //cursor: pointer;
+    z-index: 2;
+  }
+
+  .prevProduct, .nextProduct {
+    position: fixed;
+    color: white;
+    font-size: 2em;
+    cursor: pointer;
+    top: 50%;
+    transform: translateY(-50%);
+    padding: 1em;
+    user-select: none;
+    z-index: 5;
+  }
+
+  .prevProduct {
+    left: calc(50% - 9.5em);
+  }
+
+  .nextProduct {
+    right: calc(50% - 9.5em);
+  }
+
+  .modal {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: white;
+    padding: 2em;
+    text-align: center;
+    max-height: calc(100% - 2em);
+    overflow-y: scroll;
+    overflow-x: hidden;
+    animation: openUp 0.1s;
+    z-index: 3;
+    backface-visibility: hidden;
+
+    .close {
+      position: fixed;
+      top: -0.5em;
+      right: -0.5em;
+      cursor: pointer;
+      padding: 1em;
+    }
+  }
+}
+button.radius, .button.radius {
+  border-radius: 3px;
+}
+button.round, .button.round
+{
+  border-radius: 1000px;
 }
