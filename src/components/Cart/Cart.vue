@@ -14,7 +14,7 @@
             <hr>
             <h4 class="cartSubTotal" v-show="showCart"> {{ cartTotal }} </h4>
             <button class="clearCart button small alert" v-show="checkoutBool" @click="clearCart()"> Clear Cart </button>
-            <button class="checkoutCart button small success" v-show="checkoutBool" @click="propagateCheckout()"> Checkout </button>
+            <button class="checkoutCart button small success" v-show="checkoutBool" @click="propagateCheckout"> Checkout </button>
         </div>
     </div>
 </template>
@@ -114,10 +114,9 @@
             subtract (a, b) {
                 return (a * 100 - b * 100)/100
             },
-//send our request up the chain, to our parent
-//our parent catches the event, and sends the request back down
-            propagateCheckout: function() {
-                this.$emit("checkoutRequest");
+            propagateCheckout () {
+                this.showCart = false;
+                this.$emit('checkout');
             }
         }
     }

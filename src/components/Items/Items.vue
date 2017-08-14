@@ -1,16 +1,19 @@
 <template>
-    <tabs>
-        <tab name="All items">
-            <cart :checkout-bool="checkoutBool" :cart="cart" :cart-total="cartTotal" @reset="clear" @change="checkoutState" @calculate="getTotal" @positive="checkoutStatePlus"></cart>
-            <all-items :items="items" @delete="remove" :cart="cart" :cart-total="cartTotal" @calculate="getTotal" @change="checkoutState" @positive="checkoutStatePlus"></all-items>
-        </tab>
-        <tab name="New item">
-            <create-item :items="items" @add="update"></create-item>
-        </tab>
-        <tab name="Checkout" v-if="checkoutBool">
-            <checkout v-if="checkoutBool" :cart="cart" :cart-total="cartTotal" @change="checkoutState" @calculate="getTotal"></checkout>
-        </tab>
-    </tabs>
+    <div>
+        <cart :checkout-bool="checkoutBool" :cart="cart" :cart-total="cartTotal" @checkout="checkoutRequest" @reset="clear" @change="checkoutState" @calculate="getTotal" @positive="checkoutStatePlus"></cart>
+        <checkout-modal :cart-total="cartTotal" :show-modal="showModal" @hide="hideModal"></checkout-modal>
+        <tabs>
+            <tab name="All items">
+                <all-items :items="items" @delete="remove" :cart="cart" :cart-total="cartTotal" @calculate="getTotal" @change="checkoutState" @positive="checkoutStatePlus"></all-items>
+            </tab>
+            <tab name="New item">
+                <create-item :items="items" @add="update"></create-item>
+            </tab>
+            <tab name="Checkout" v-if="checkoutBool">
+                <checkout v-if="checkoutBool" :cart="cart" :cart-total="cartTotal" @checkout="checkoutRequest" @change="checkoutState" @calculate="getTotal"></checkout>
+            </tab>
+        </tabs>
+    </div>
 </template>
 <script>
     export default {
@@ -24,9 +27,16 @@
                     amount: 1,
                     price: 10
                 }],
+                orders: [{
+                    id: 1,
+                    date: null,
+                    amount: 1,
+                    price: 10
+                }],
                 checkoutBool: false,
                 cart: [],
-                cartTotal: 0
+                cartTotal: 0,
+                showModal: false
             }
         },
         methods: {
@@ -62,11 +72,12 @@
             },
             getTotal (total) {
                 this.cartTotal = total
-            }
-        },
-        events: {
-            "checkoutRequest": function () {
-                this.$broadcast("checkoutRequest");
+            },
+            checkoutRequest () {
+                this.showModal = true
+            },
+            hideModal() {
+                this.showModal = false;
             }
         }
     }

@@ -50,15 +50,6 @@ export default {
     getters: {
         isAuthenticated: state => {
             return state.isAuthenticated
-        },
-        checkoutBool: state => {
-            return state.checkoutBool
-        },
-        cart: state => {
-            return state.cart
-        },
-        cartTotal: state => {
-            return state.cartTotal
         }
     }
 }
