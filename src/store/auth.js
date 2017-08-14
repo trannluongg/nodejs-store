@@ -3,7 +3,7 @@ import vueAuthInstance from '@/services/auth'
 export default {
     state: {
         profile: null,
-        isAuthenticated: vueAuthInstance.isAuthenticated()
+        isAuthenticated: vueAuthInstance.isAuthenticated(),
     },
     mutations: {
         isAuthenticated: function (state, payload) {
@@ -50,6 +50,15 @@ export default {
     getters: {
         isAuthenticated: state => {
             return state.isAuthenticated
+        },
+        checkoutBool: state => {
+            return state.checkoutBool
+        },
+        cart: state => {
+            return state.cart
+        },
+        cartTotal: state => {
+            return state.cartTotal
         }
     }
 }

@@ -1,10 +1,9 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import Hello from '@/components/Hello'
 import Login from '@/components/Login'
 import Register from '@/components/Register'
 import Items from '@/components/Items/Items'
-import Orders from '@/components/Orders/Orders'
+
 
 import vueAuthInstance from '@/services/auth.js'
 
@@ -15,12 +14,6 @@ const router = new Router({
     routes: [
         {
             path: '/',
-            name: 'Hello',
-            component: Hello,
-            meta: {auth: false}
-        },
-        {
-            path: '/login',
             name: 'Login',
             component: Login,
             meta: {auth: false}
@@ -36,18 +29,7 @@ const router = new Router({
             name: 'Items',
             component: Items,
             meta: {auth: true}
-        },
-        {
-            path: '/orders',
-            name: 'Orders',
-            component: Orders,
-            meta: {auth: true}
-        },
-        {
-            path: '/items#new-item',
-            name: 'New items',
-            meta: {auth: true}
-        },
+        }
     ]
 })
 
@@ -57,11 +39,11 @@ router.beforeEach(function (to, from, next) {
             if (vueAuthInstance.isAuthenticated()) {
                 next()
             } else {
-                router.push({ path: '/login' })
+                router.push({ path: '/' })
             }
         } else {
             if (vueAuthInstance.isAuthenticated()) {
-                router.push({ path: '/' })
+                router.push({ path: '/items' })
             } else {
                 next()
             }

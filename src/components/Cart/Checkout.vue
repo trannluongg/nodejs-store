@@ -2,7 +2,7 @@
     <div>
         <h1>Checkout Area</h1>
         <div class="checkout-area">
-            <span> {{ cart | cartSize }} </span><i class="fi-shopping-cart"></i>
+            <span> {{ cart | cartSize }} </span><i class="fi fi-shopping-cart"></i>
             <table>
                 <thead>
                 <tr>
@@ -19,28 +19,32 @@
                     <td>{{ item.name }}</td>
                     <td>{{ item.description }}</td>
                     <td class="align-right">{{ item.amount }}</td>
-                    <td class="align-right">{{ item.price }}</td>
+                    <td class="align-right">{{ item.price }}/=</td>
                 </tr>
                 <tr>
                     <td></td>
                     <td></td>
                     <td></td>
                     <td class="align-right">Total:</td>
-                    <td class="align-right"><h4 v-if="cartTotal != 0"> {{ cartTotal }} </h4></td>
+                    <td class="align-right"><h4 v-if="cartTotal != 0"> {{ cartTotal }}/= </h4></td>
                 </tr>
                 </tbody>
             </table>
-            <button v-show="cartTotal" @click="checkoutModal()">Checkout</button>
+            <button v-show="cartTotal" @click="checkoutModal()" class="button success radius">Checkout</button>
         </div>
         <div class='modalWrapper' v-show='showModal'>
             <div class='overlay' @click='hideModal()'></div>
             <div class='modal checkout'>
-                <i class='close fa fa-times' @click='hideModal()'></i>
-                <h1>Checkout</h1>
-                <div>We accept: <i class='fa fa-stripe'></i> <i class='fa fa-cc-visa'></i> <i class='fa fa-cc-mastercard'></i> <i class='fa fa-cc-amex'></i> <i class='fa fa-cc-discover'></i></div><br>
-                <h3> Total: {{ cartTotal }} </h3>
-                <br>
-                <div>This is where our payment processor goes</div>
+                <button class="button secondary hollow tiny corner" @click='hideModal()'>X</button>
+                <div class="none">
+                    <h1>Checkout</h1>
+                    <!--<div>We accept: <i class='fa fa-stripe'></i> <i class='fa fa-cc-visa'></i> <i class='fa fa-cc-mastercard'></i> <i class='fa fa-cc-amex'></i> <i class='fa fa-cc-discover'></i></div><br>-->
+                    <h3> Total: {{ cartTotal }}/= </h3>
+                    <br>
+                    <div>This is where our payment processor goes</div>
+                    <button class="other-corner button alert round" @click='hideModal()'>Cancel</button>
+                    <button class="corner button success round">Checkout</button>
+                </div>
             </div>
         </div>
     </div>
@@ -50,7 +54,8 @@
         props: ['cart', 'cartSize', 'cartTotal'],
         data: function() {
             return {
-                showModal: false
+                showModal: false,
+                total: 1
             }
         },
 
@@ -80,19 +85,17 @@
         methods: {
             removeItem: function(item) {
                 this.cart.$remove(item);
-                this.cartTotal = this.cartTotal - (item.price * item.amount);
+                this.total = this.cartTotal - (item.price * item.amount);
+                this.$emit('calculate', this.total)
 
                 if(this.cart.length <= 0) {
-                    this.checkoutBool = false;
+                    this.$emit('change')
                 }
             },
             checkoutModal: function() {
                 this.showModal = true;
-                console.log("CHECKOUT", this.cartTotal);
-
             },
             hideModal: function() {
-                //hide modal and empty modal data
                 this.showModal = false;
             }
         },

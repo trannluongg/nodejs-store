@@ -24,6 +24,7 @@
         data () {
             return {
                 showCart: false,
+                total: 1
             }
         },
         filters: {
@@ -52,28 +53,21 @@
                 for (var i = 0; i < cart.length; i++) {
                     cartSize += cart[i].amount;
                 }
-
                 return cartSize;
             }
         },
 
+
         methods: {
             removeItem (item) {
                 this.cart.$remove(item);
-                this.cartTotal = this.cartTotal - (item.price);
+                this.total = this.cartTotal - (item.price);
+                this.$emit('calculate', this.total)
                 if(this.cart.length <= 0) {
-                    this.checkoutBool = false;
+                    this.$emit('change')
                 }
             },
-            cartSize () {
-                var cartSize = 0;
 
-                for (var i = 0; i < cart.length; i++) {
-                    cartSize += cart[i].amount;
-                }
-
-                return cartSize;
-            },
             clearCart () {
                 this.$emit('reset');
                 this.showCart = false;
@@ -103,12 +97,12 @@
                 }
 
                 if(direction === "increament") {
-                    this.cartTotal = this.sum(this.cartTotal, item.price);
-
+                    this.total = this.sum(this.cartTotal, item.price);
+                    this.$emit('calculate', this.total)
                 } else {
-                    this.cartTotal = this.subtract(this.cartTotal, item.price);
+                    this.total = this.subtract(this.cartTotal, item.price);
+                    this.$emit('calculate', this.total)
                 }
-
 
                 if(this.cart.length <= 0) {
                     this.checkoutBool = false;

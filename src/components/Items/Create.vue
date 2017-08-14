@@ -51,16 +51,11 @@
             }
         },
         notifications: {
-            itemAdded:{
-                title: 'Item',
-                message: 'Item added successfully',
-                type: 'success'
-            },
-            showLoginError: {
-                title: 'Login Failed',
-                message: 'Failed to authenticate',
-                type: 'error'
-            }
+//            showLoginError: {
+//                title: 'Login Failed',
+//                message: 'Failed to authenticate',
+//                type: 'error'
+//            }
         },
     }
 </script>

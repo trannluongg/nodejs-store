@@ -41,7 +41,7 @@
                         password: this.password
                     }
                 }).then(() => {
-                    this.$router.push('/hello')
+                    this.$router.push('/items')
                 }).catch(e => {
                     this.errors.push(e)
                     console.log(e)
@@ -49,7 +49,7 @@
             },
             authenticate (provider) {
                 this.$store.dispatch('authenticate', { provider }).then(() => {
-                    this.$router.push('/hello')
+                    this.$router.push('/items')
                 })
             }
         }

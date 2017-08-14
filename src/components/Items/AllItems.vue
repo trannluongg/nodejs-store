@@ -32,14 +32,17 @@
         <div class='modalWrapper' v-show='showModal'>
             <div class='overlay' @click='hideModal()'></div>
             <div class='modal'>
-                <i class='close fa fa-times' @click='hideModal()'></i>
-                <div class='name'>{{ modalData.name }}</div>
-                <div class='description'>{{ modalData.description }}</div>
-                <div class='details'>{{ modalData.amount }}</div>
-                <h3 class='price'>{{ modalData.price }}</h3>
-                <label for='modalAmount'>QTY</label>
-                <input id='modalAmount' :value='modalAmount' v-model='modalAmount' class='amount' @keyup.enter='modalAddToCart(modalData), hideModal()'/>
-                <button @click='modalAddToCart(modalData), hideModal()'>Add to Cart</button>
+                <button class="button secondary hollow tiny corner" @click='hideModal()'>X</button>
+                <div class="none">
+                    <div class='name'>Name: {{ modalData.name }}</div>
+                    <div class='description'>Description: {{ modalData.description }}</div>
+                    <div class='details'>Amount available: {{ modalData.amount }}</div>
+                    <h3 class='price'>Price: {{ modalData.price }}/=</h3>
+                    <label for='modalAmount'>QTY</label>
+                    <input id='modalAmount' :value='modalAmount' v-model='modalAmount' class='amount text-center' @keyup.enter='modalAddToCart(modalData), hideModal()'/>
+                    <br><br>
+                    <button @click='modalAddToCart(modalData), hideModal()' class="button secondary round">Add to Cart</button>
+                </div>
             </div>
         </div>
     </div>
@@ -74,11 +77,8 @@
                     this.cart.push(item);
                 }
                 this.total = this.sum(this.cartTotal, item.price);
-                console.log(item.price)
-                console.log(this.cartTotal)
-                this.$emit('change')
-                this.$emit('total', this.total)
-                console.log(this.total)
+                this.$emit('calculate', this.total)
+                this.$emit('positive')
             },
             viewItem (item) {
                 this.modalData = (JSON.parse(JSON.stringify(item)));
@@ -105,5 +105,13 @@
     }
 </script>
 <style lang="scss">
-
+    .corner  {
+        float: right;
+    }
+    .other-corner {
+        float: left;
+    }
+    .none {
+        clear: both;
+    }
 </style>

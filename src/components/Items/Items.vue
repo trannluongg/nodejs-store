@@ -1,15 +1,14 @@
 <template>
     <tabs>
         <tab name="All items">
-            <cart :checkout-bool="checkoutBool" :cart="cart" :cart-total="cartTotal" @reset="clear"></cart>
-            <all-items :items="items" @delete="remove" :cart="cart" :cart-total="cartTotal" @total="sum" @change="checkoutState"></all-items>
-            <checkout v-if="checkoutBool" :cart="cart" :cart-total="cartTotal"></checkout>
+            <cart :checkout-bool="checkoutBool" :cart="cart" :cart-total="cartTotal" @reset="clear" @change="checkoutState" @calculate="getTotal" @positive="checkoutStatePlus"></cart>
+            <all-items :items="items" @delete="remove" :cart="cart" :cart-total="cartTotal" @calculate="getTotal" @change="checkoutState" @positive="checkoutStatePlus"></all-items>
         </tab>
         <tab name="New item">
             <create-item :items="items" @add="update"></create-item>
         </tab>
-        <tab name="View item">
-            Third tab content
+        <tab name="Checkout" v-if="checkoutBool">
+            <checkout v-if="checkoutBool" :cart="cart" :cart-total="cartTotal" @change="checkoutState" @calculate="getTotal"></checkout>
         </tab>
     </tabs>
 </template>
@@ -29,9 +28,6 @@
                 cart: [],
                 cartTotal: 0
             }
-        },
-        computed: {
-
         },
         methods: {
             update (item) {
@@ -53,16 +49,19 @@
             remove (item) {
                 this.items.splice(item, 1)
             },
-            sum (num) {
-                this.cartTotal = num
-            },
             checkoutState () {
+                this.checkoutBool = false
+            },
+            checkoutStatePlus () {
                 this.checkoutBool = true
             },
             clear () {
+                this.checkoutBool = false;
                 this.cart = [];
                 this.cartTotal = 0;
-                this.checkoutBool = false;
+            },
+            getTotal (total) {
+                this.cartTotal = total
             }
         },
         events: {
