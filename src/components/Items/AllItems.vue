@@ -19,7 +19,7 @@
                 <td>{{ item.amount }}</td>
                 <td>{{ item.price }}</td>
                 <td>
-                    <button @click="editItem(item)" class="button small secondary hollow round">Edit</button>
+                    <a href="/items#edit-item" @click="editItem(item)" class="button small secondary hollow round">Edit</a>
                     <button @click="viewItem(item)" class="button small hollow round">View</button>
                     <button @click="deleteItem(index)" class="button alert small hollow round">Delete</button>
                 </td>
@@ -29,7 +29,6 @@
             </tr>
             </tbody>
         </table>
-        <a href="/items#new-item">New item</a>
         <div class='modalWrapper' v-show='showModal'>
             <div class='overlay' @click='hideModal()'></div>
             <div class='modal'>

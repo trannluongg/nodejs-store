@@ -17,6 +17,7 @@
     "foundation-sites": "^6.4.1",
     "jquery": "^3.2.1",
     "mini-toastr": "^0.6.5",
+    "moment": "^2.18.1",
     "motion-ui": "^1.2.2",
     "unix-timestamp": "^0.2.0",
     "vue": "^2.3.3",

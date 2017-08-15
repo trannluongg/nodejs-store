@@ -15,7 +15,7 @@
                 <input type="number" name="price" id="price" v-model="price" required>
             </label>
             <button class="button success" @click.prevent()="save">Save</button>
-            <button class="button secondary clear">Cancel</button>
+            <a href="/items#all-items" class="button secondary clear">Cancel</a>
         </form>
     </div>
 </template>
@@ -26,10 +26,10 @@
         name: 'edit-item',
         data () {
             return {
-                name: '',
-                description: '',
-                amount: '',
-                price: '',
+                name: this.item.name,
+                description: this.item.description,
+                amount: this.item.amount,
+                price: this.item.price,
                 obj: {}
             }
         },

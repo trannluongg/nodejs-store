@@ -32,7 +32,7 @@ const router = new Router({
         },
         {
             path: '/items#new-item',
-            name: 'Items',
+            name: 'NewItems',
             component: Items,
             meta: {auth: true}
         }

@@ -10,13 +10,14 @@
                 <br>
                 <div>This is where our payment processor goes</div>
                 <button class="other-corner button alert round" @click='hideModal()'>Cancel</button>
-                <a href="/items#all-items" class="corner button success round" @click="save">Checkout</a>
+                <a href="/items#orders" class="corner button success round" @click="save">Checkout</a>
             </div>
         </div>
     </div>
 </template>
 <script>
     import VueNotifications from 'vue-notifications'
+    import moment from 'moment'
     export default {
         props: ['showModal', 'cartTotal'],
         data () {
@@ -33,7 +34,7 @@
             },
             save () {
                 this.item = {
-                    date: new Date (),
+                    date: moment(),
                     price: this.cartTotal,
                 }
                 this.$emit('add', this.item).$emit('hide').$emit('reset');

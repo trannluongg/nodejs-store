@@ -5,7 +5,6 @@
                 <router-link v-bind:to="'/register'" v-if="!isAuthenticated" class='button clear'><i class="fi-list"></i><span>Register</span></router-link>
                 <router-link v-bind:to="'/'" v-if="!isAuthenticated" class='button clear'><i class="fi-list"></i><span>Login</span></router-link>
                 <router-link v-bind:to="'/items'" v-if="isAuthenticated" class='button clear'><i class="fi-list"></i><span>Items</span></router-link>
-                <router-link v-bind:to="'/items#new-item'" v-if="isAuthenticated" class='button clear'><i class="fi-list"></i><span>New Item</span></router-link>
                 <button class="button clear" v-if="isAuthenticated" @click="logout()">Logout</button>
             </ul>
             </div>
