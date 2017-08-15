@@ -29,6 +29,7 @@
             </tr>
             </tbody>
         </table>
+        <a href="/items#new-item">New item</a>
         <div class='modalWrapper' v-show='showModal'>
             <div class='overlay' @click='hideModal()'></div>
             <div class='modal'>
@@ -77,12 +78,14 @@
                     this.cart.push(item);
                 }
                 this.total = this.sum(this.cartTotal, item.price);
-                this.$emit('calculate', this.total)
-                this.$emit('positive')
+                this.$emit('calculate', this.total).$emit('positive')
             },
             viewItem (item) {
                 this.modalData = (JSON.parse(JSON.stringify(item)));
                 this.showModal = true;
+            },
+            editItem(item) {
+                this.$emit('edit', item)
             },
             deleteItem (item) {
                 this.$emit('delete', item)

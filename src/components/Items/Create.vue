@@ -22,7 +22,6 @@
 <script>
     import VueNotifications from 'vue-notifications'
     export default {
-        props: ['items'],
         name: 'create-item',
         data () {
             return {

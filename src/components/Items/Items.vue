@@ -1,16 +1,20 @@
 <template>
     <div>
         <cart :checkout-bool="checkoutBool" :cart="cart" :cart-total="cartTotal" @checkout="checkoutRequest" @reset="clear" @change="checkoutState" @calculate="getTotal" @positive="checkoutStatePlus"></cart>
-        <checkout-modal :cart-total="cartTotal" :show-modal="showModal" @hide="hideModal"></checkout-modal>
+        <checkout-modal :cart-total="cartTotal" :show-modal="showModal" @hide="hideModal" @add="update" @reset="clear"></checkout-modal>
         <tabs>
             <tab name="All items">
                 <all-items :items="items" @delete="remove" :cart="cart" :cart-total="cartTotal" @calculate="getTotal" @change="checkoutState" @positive="checkoutStatePlus"></all-items>
             </tab>
-            <tab name="New item">
-                <create-item :items="items" @add="update"></create-item>
+            <tab :name="naming">
+                <create-item @add="create" v-show="isEmpty(item)"></create-item>
+                <edit-item :item="item" v-show="! isEmpty(item)"></edit-item>
             </tab>
             <tab name="Checkout" v-if="checkoutBool">
                 <checkout v-if="checkoutBool" :cart="cart" :cart-total="cartTotal" @checkout="checkoutRequest" @change="checkoutState" @calculate="getTotal"></checkout>
+            </tab>
+            <tab name="Orders">
+                <all-orders></all-orders>
             </tab>
         </tabs>
     </div>
@@ -30,17 +34,22 @@
                 orders: [{
                     id: 1,
                     date: null,
-                    amount: 1,
                     price: 10
                 }],
                 checkoutBool: false,
                 cart: [],
                 cartTotal: 0,
-                showModal: false
+                showModal: false,
+                item: {}
+            }
+        },
+        computed: {
+            naming () {
+                return this.isEmpty(this.item) ? 'New item' : 'Edit Item'
             }
         },
         methods: {
-            update (item) {
+            create (item) {
                 let onething = this.items.find(function(obj) {
                     return obj.name == item.name;
                 })
@@ -51,6 +60,17 @@
                     var id = this.items[this.items.length - 1].id
                     item.id = id+1
                     this.items.push(item)
+                }
+            },
+            update (item) {
+                let onething = this.items.find(function(obj) {
+                    return obj.id == item.id;
+                })
+                if(onething) {
+                    onething.name = item.name
+                    onething.description = item.description
+                    onething.amount = item.amount
+                    onething.price = item.price
                 }
             },
             number (a, b) {
@@ -78,6 +98,13 @@
             },
             hideModal() {
                 this.showModal = false;
+            },
+            isEmpty(obj) {
+                for(var key in obj) {
+                    if(obj.hasOwnProperty(key))
+                        return false;
+                }
+                return true;
             }
         }
     }

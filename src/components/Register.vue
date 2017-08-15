@@ -48,12 +48,12 @@
                         password: this.password
                     }
                 }).then(() => {
-                    this.$router.push('/items')
+                    this.$router.push('/')
                 })
             },
             authenticate (provider) {
                 this.$store.dispatch('authenticate', { provider }).then(() => {
-                    this.$router.push('/items')
+                    this.$router.push('/')
                 })
             }
         }

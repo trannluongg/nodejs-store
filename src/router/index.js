@@ -29,6 +29,12 @@ const router = new Router({
             name: 'Items',
             component: Items,
             meta: {auth: true}
+        },
+        {
+            path: '/items#new-item',
+            name: 'Items',
+            component: Items,
+            meta: {auth: true}
         }
     ]
 })

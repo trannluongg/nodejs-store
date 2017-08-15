@@ -10,17 +10,34 @@
                 <br>
                 <div>This is where our payment processor goes</div>
                 <button class="other-corner button alert round" @click='hideModal()'>Cancel</button>
-                <button class="corner button success round">Checkout</button>
+                <a href="/items#all-items" class="corner button success round" @click="save">Checkout</a>
             </div>
         </div>
     </div>
 </template>
 <script>
+    import VueNotifications from 'vue-notifications'
     export default {
         props: ['showModal', 'cartTotal'],
+        data () {
+            return {
+                date: null,
+                amount: '',
+                price: '',
+                item: {}
+            }
+        },
         methods: {
             hideModal() {
                 this.$emit('hide');
+            },
+            save () {
+                this.item = {
+                    date: new Date (),
+                    price: this.cartTotal,
+                }
+                this.$emit('add', this.item).$emit('hide').$emit('reset');
+                VueNotifications.success({message: 'Order added successfully!'})
             }
         }
     }
