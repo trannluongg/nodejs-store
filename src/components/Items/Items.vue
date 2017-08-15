@@ -8,7 +8,7 @@
             </tab>
             <tab :name="naming">
                 <create-item @add="create" v-show="isEmpty(item)"></create-item>
-                <edit-item :item="item" v-show="! isEmpty(item)" @edit="update"></edit-item>
+                <edit-item :item="item" v-show="! isEmpty(item)" @edit="update" @clear="reset"></edit-item>
             </tab>
             <tab name="Checkout" v-if="checkoutBool">
                 <checkout v-if="checkoutBool" :cart="cart" :cart-total="cartTotal" @checkout="checkoutRequest" @change="checkoutState" @calculate="getTotal"></checkout>
@@ -77,10 +77,12 @@
                     onething.amount = item.amount
                     onething.price = item.price
                 }
-                this.item = {}
             },
             editPage(item) {
                 this.item = item
+            },
+            reset() {
+                this.item = {}
             },
             number (a, b) {
                 return (a * 100 + b * 100)/100

@@ -13,9 +13,9 @@
             </label>
             <label>Price:
                 <input type="number" name="price" id="price" v-model="price" required>
-            </label>
-            <button class="button success" @click.prevent()="save">Save</button>
-            <a href="/items#all-items" class="button secondary clear">Cancel</a>
+            </label><p>{{ item.price }}</p>
+            <a href="/items#all-items" class="button success" @click="save">Save</a>
+            <a href="/items#all-items" class="button secondary clear" @click="clear">Cancel</a>
         </form>
     </div>
 </template>
@@ -42,13 +42,24 @@
                     amount: this.amount,
                     price: this.price,
                 }
-                this.$emit('edit', this.obj)
+                this.$emit('edit', this.obj).$emit('clear')
                 this.obj = {}
                 this.name = ''
                 this.description = ''
                 this.amount = ''
                 this.price = ''
                 VueNotifications.success({message: 'Item edited successfully!'})
+            },
+            clear () {
+                this.$emit('clear')
+            }
+        },
+        watch: {
+            item () {
+                this.name = this.item.name
+                this.description = this.item.description
+                this.amount = this.item.amount
+                this.price = this.item.price
             }
         },
         notifications: {
