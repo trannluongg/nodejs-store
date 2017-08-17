@@ -13,7 +13,7 @@
             </label>
             <label>Price:
                 <input type="number" name="price" id="price" v-model="price" required>
-            </label><p>{{ item.price }}</p>
+            </label>
             <a href="/items#all-items" class="button success" @click="save">Save</a>
             <a href="/items#all-items" class="button secondary clear" @click="clear">Cancel</a>
         </form>

@@ -4,6 +4,7 @@ export default {
     state: {
         profile: null,
         isAuthenticated: vueAuthInstance.isAuthenticated(),
+        disable: false
     },
     mutations: {
         isAuthenticated: function (state, payload) {
@@ -11,6 +12,12 @@ export default {
         },
         setProfile: function (state, payload) {
             state.profile = payload.profile
+        },
+        deactivate: function (state) {
+            state.disable = true
+        },
+        activate: function (state) {
+            state.disable = false
         }
     },
     actions: {
@@ -50,6 +57,9 @@ export default {
     getters: {
         isAuthenticated: state => {
             return state.isAuthenticated
+        },
+        disable: state => {
+            return state.disable
         }
     }
 }

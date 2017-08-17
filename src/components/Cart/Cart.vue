@@ -4,11 +4,14 @@
         <div class="cart-items" v-show="showCart">
             <table class="cartTable">
                 <tr class="product" v-for="item in cart" :key="item.id">
-                    <td class="text-center"><button @click="quantityChange(item, 'decreament')" class="button hollow tiny"><i class="close fa fa-minus"></i>-</button></td>
-                    <td class="text-center">{{ item.amount }}</td>
-                    <td class="text-center"><button @click="quantityChange(item, 'increament')" class="button hollow tiny"><i class="close fa fa-plus"></i>+</button></td>
+                    <td class="text-center"><button @click="quantityChange(item, 'decrement')" class="button hollow tiny"><i class="close fa fa-minus"></i>-</button></td>
+                    <td class="text-center">{{ item.quantity }}</td>
+                    <td class="text-center"><button @click="quantityChange(item, 'increment')" class="button hollow tiny"><i class="close fa fa-plus"></i>+</button></td>
                     <td class="text-center">{{ item.name }}</td>
                     <td class="text-center">{{ item.price }}</td>
+                    <td>
+                        <button class="button small alert radius" @click="removeItem(item)">&times;</button>
+                    </td>
                 </tr>
             </table>
             <hr>
@@ -28,66 +31,54 @@
             }
         },
         filters: {
-//            customPluralize: function(cart) {
-//                var newName;
-//
-//                if(cart.quantity > 1) {
-//                    if(cart.product === "Peach") {
-//                        newName = cart.product + "es";
-//                    } else if(cart.product === "Puppy") {
-//                        newName = cart.product + "ies";
-//                        newName = newName.replace("y", "");
-//                    } else {
-//                        newName = cart.product + "s";
-//                    }
-//
-//                    return newName;
-//                }
-//
-//                return cart.product;
-//            },
-
             cartSize (cart) {
                 var cartSize = 0;
 
                 for (var i = 0; i < cart.length; i++) {
-                    cartSize += cart[i].amount;
+                    cartSize += cart[i].quantity;
                 }
                 return cartSize;
             }
         },
 
-
         methods: {
             removeItem (item) {
-                this.cart.$remove(item);
                 this.total = this.cartTotal - (item.price);
-                this.$emit('calculate', this.total)
+                var newItem = item
+                this.$emit('calculate', this.total).$emit('remove', newItem)
+                this.cart.splice(item, 1);
                 if(this.cart.length <= 0) {
                     this.$emit('change')
                 }
             },
-
             clearCart () {
                 this.$emit('reset');
                 this.showCart = false;
             },
-
             quantityChange: function(item, direction) {
                 for (var i = 0; i < this.cart.length; i++) {
                     if (this.cart[i].id === item.id) {
 
                         var newItem = this.cart[i];
+                        var cartItem = {
+                            id: newItem.id,
+                            name: newItem.name,
+                            price: newItem.price,
+                            quantity: 1
+                        }
 
-                        if(direction === "increament") {
-                            newItem.amount = newItem.amount + 1;
+                        if(direction === "increment") {
+                            newItem.quantity = newItem.quantity + 1;
                             this.cart[i] = newItem;
+                            this.$emit('increase', cartItem)
 
                         } else {
-                            newItem.amount = newItem.amount - 1;
+                            newItem.quantity = newItem.quantity - 1;
 
-                            if(newItem.amount == 0) {
-                                this.cart.$remove(newItem);
+                            this.$emit('remove', cartItem)
+
+                            if(newItem.quantity == 0) {
+                                this.cart.splice(newItem, 1);
 
                             } else {
                                 this.cart[i] = newItem;
@@ -95,8 +86,7 @@
                         }
                     }
                 }
-
-                if(direction === "increament") {
+                if(direction === "increment") {
                     this.total = this.sum(this.cartTotal, item.price);
                     this.$emit('calculate', this.total)
                 } else {
@@ -105,7 +95,7 @@
                 }
 
                 if(this.cart.length <= 0) {
-                    this.checkoutBool = false;
+                    this.$emit('change')
                 }
             },
             sum (a, b) {

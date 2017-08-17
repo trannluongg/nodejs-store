@@ -14,7 +14,7 @@
             <label>Price:
                 <input type="number" name="price" id="price" v-model="price" required>
             </label>
-            <button class="button success" @click.prevent()="save">Save</button>
+            <a href="/items#all-items" class="button success" @click="save">Save</a>
             <a href="/items#all-items" class="button secondary clear">Cancel</a>
         </form>
     </div>

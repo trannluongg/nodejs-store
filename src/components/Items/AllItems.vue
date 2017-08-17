@@ -1,9 +1,12 @@
 <template>
     <div>
+        <div class="corner">
+            <input type="search" placeholder="Search" name="search" class="searchbox-input" v-model="keyword">
+        </div>
         <table>
             <thead>
             <tr>
-                <th class="text-center">Id</th>
+                <th class="text-center">#</th>
                 <th class="text-center">Name</th>
                 <th class="text-center">Description</th>
                 <th class="text-center">Amount</th>
@@ -12,6 +15,7 @@
             </tr>
             </thead>
             <tbody v-for="(item, index) in items" :key="item.id">
+            <input type="hidden" v-model="something" :value="item.amount">
             <tr class="text-center">
                 <td>{{ item.id }}</td>
                 <td>{{ item.name }}</td>
@@ -41,7 +45,7 @@
                     <label for='modalAmount'>QTY</label>
                     <input id='modalAmount' :value='modalAmount' v-model='modalAmount' class='amount text-center' @keyup.enter='modalAddToCart(modalData), hideModal()'/>
                     <br><br>
-                    <button @click='modalAddToCart(modalData), hideModal()' class="button secondary round">Add to Cart</button>
+                    <button @click='modalAddToCart(modalData), hideModal()' class="button secondary round" >Add to Cart</button>
                 </div>
             </div>
         </div>
@@ -49,23 +53,59 @@
 </template>
 <script>
     import VueNotifications from 'vue-notifications'
+    import { mapGetters } from 'vuex'
     export default {
-        props: ['items', 'cart', 'cartTotal'],
+        props: ['allItems', 'cart', 'cartTotal'],
         data () {
             return {
                 showModal: false,
                 modalData: {},
                 modalAmount: 1,
-                total: 1
+                total: 1,
+                items: this.allItems,
+                keyword: '',
+                something: ''
+//                disableButton: this.disable
             }
         },
+        watch: {
+            allItems () {
+                this.items = this.allItems
+            },
+            keyword (key) {
+                key = this.keyword
+                if (!key) {
+                    this.items = this.allItems
+                }
+                else {
+                    this.items = this.items.filter(function (item) {
+                        return item.name.toLowerCase().indexOf(key.toLowerCase()) > -1 || item.description.toLowerCase().indexOf(key.toLowerCase()) > -1
+                    })
+                }
+            },
+//            disableButton () {
+//                this.disableButton = this.$store.getters.disable
+//            }
+        },
+        computed: {
+
+//            ...mapGetters({
+//                disableButton: 'disable'
+//            })
+        },
         methods: {
+            disableButton (item) {
+                if (item.amount <= 0) {
+                    return true
+                }
+                return false
+            },
             addToCart (item) {
                 var found = false;
                 for (var i = 0; i < this.cart.length; i++) {
                     if (this.cart[i].id === item.id) {
                         var newItem = this.cart[i];
-                        newItem.amount = newItem.amount + 1;
+                        newItem.quantity = newItem.quantity + 1;
                         this.cart[i] =  newItem;
 //                        console.log("DUPLICATE",  this.cart[i].name + "'s quantity is now: " + this.cart[i].quantity);
                         found = true;
@@ -73,9 +113,19 @@
                     }
                 }
                 if(!found) {
-                    item.amount = 1;
-                    this.cart.push(item);
+                    var cartItem = {
+                        id: item.id,
+                        name: item.name,
+                        price: item.price,
+                        quantity: 1
+                    }
+                    this.cart.push(cartItem);
                 }
+                item.amount = item.amount - 1
+//                if (item.amount <= 0) {
+//                    this.$store.commit('deactivate')
+//                    console.log(this.$store.getters.disable)
+//                }
                 this.total = this.sum(this.cartTotal, item.price);
                 this.$emit('calculate', this.total).$emit('positive')
             },
@@ -102,7 +152,7 @@
             hideModal () {
                 this.modalData = {};
                 this.showModal = false;
-            },
+            }
         }
     }
 </script>

@@ -7,7 +7,7 @@
             <th class="text-center">Price</th>
         </tr>
         </thead>
-        <tbody v-for="(order, index) in orders" :key="order.id">
+        <tbody v-for="(order, index) in allOrders" :key="order.id">
         <tr class="text-center">
             <td>{{ order.id }}</td>
             <td>{{ order.date | formatDate }}</td>
@@ -19,7 +19,7 @@
 <script>
     import moment from 'moment'
     export default {
-        props: ['orders'],
+        props: ['allOrders'],
         filters: {
             formatDate (date) {
                 return moment(String(date)).format('MM/DD/YYYY')

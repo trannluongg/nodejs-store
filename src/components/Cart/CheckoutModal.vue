@@ -22,9 +22,6 @@
         props: ['showModal', 'cartTotal'],
         data () {
             return {
-                date: null,
-                amount: '',
-                price: '',
                 item: {}
             }
         },

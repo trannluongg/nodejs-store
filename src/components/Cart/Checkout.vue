@@ -18,7 +18,7 @@
                     <td class="align-center">{{ item.id }}</td>
                     <td>{{ item.name }}</td>
                     <td>{{ item.description }}</td>
-                    <td class="align-right">{{ item.amount }}</td>
+                    <td class="align-right">{{ item.quantity }}</td>
                     <td class="align-right">{{ item.price }}/=</td>
                 </tr>
                 <tr>
@@ -60,7 +60,7 @@
                 var cartSize = 0;
 
                 for (var i = 0; i < cart.length; i++) {
-                    cartSize += cart[i].amount;
+                    cartSize += cart[i].quantity;
                 }
 
                 return cartSize;
@@ -69,8 +69,8 @@
 
         methods: {
             removeItem: function(item) {
-                this.cart.$remove(item);
-                this.total = this.cartTotal - (item.price * item.amount);
+                this.cart.splice(newItem, 1);
+                this.total = this.cartTotal - (item.price * item.quantity);
                 this.$emit('calculate', this.total)
 
                 if(this.cart.length <= 0) {

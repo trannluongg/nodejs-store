@@ -1,10 +1,10 @@
 <template>
     <div>
-        <cart :checkout-bool="checkoutBool" :cart="cart" :cart-total="cartTotal" @checkout="checkoutRequest" @reset="clear" @change="checkoutState" @calculate="getTotal" @positive="checkoutStatePlus"></cart>
+        <cart :checkout-bool="checkoutBool" :cart="cart" :cart-total="cartTotal" @checkout="checkoutRequest" @reset="clear" @change="checkoutState" @calculate="getTotal" @positive="checkoutStatePlus" @remove="increase" @increase="reduce"></cart>
         <checkout-modal :cart-total="cartTotal" :show-modal="showModal" @hide="hideModal" @add="createOrder" @reset="clear"></checkout-modal>
         <tabs>
             <tab name="All items">
-                <all-items :items="items" @delete="remove" :cart="cart" :cart-total="cartTotal" @calculate="getTotal" @change="checkoutState" @positive="checkoutStatePlus" @edit="editPage"></all-items>
+                <all-items :all-items="items" @delete="remove" :cart="cart" :cart-total="cartTotal" @calculate="getTotal" @change="checkoutState" @positive="checkoutStatePlus" @edit="editPage"></all-items>
             </tab>
             <tab :name="naming">
                 <create-item @add="create" v-show="isEmpty(item)"></create-item>
@@ -14,7 +14,7 @@
                 <checkout v-if="checkoutBool" :cart="cart" :cart-total="cartTotal" @checkout="checkoutRequest" @change="checkoutState" @calculate="getTotal"></checkout>
             </tab>
             <tab name="Orders">
-                <all-orders :orders="orders"></all-orders>
+                <all-orders :all-orders="orders"></all-orders>
             </tab>
         </tabs>
     </div>
@@ -40,12 +40,56 @@
                 cart: [],
                 cartTotal: 0,
                 showModal: false,
-                item: {}
+                item: {},
+                addQuantity: {},
+                changeQuantity: {},
+                cartQuantities: {}
             }
         },
         computed: {
             naming () {
                 return this.isEmpty(this.item) ? 'New item' : 'Edit Item'
+            }
+        },
+        watch: {
+            addQuantity() {
+                if (! this.isEmpty(this.addQuantity)) {
+                    var quantity = this.addQuantity
+                    let found = this.items.find(function (obj) {
+                        return obj.id === quantity.id
+                    })
+                    if (found) {
+                        found.amount = this.number(found.amount, quantity.quantity)
+                        this.addQuantity = {}
+//                        this.$store.commit('activate')
+                    }
+                }
+            },
+            changeQuantity() {
+                if (! this.isEmpty(this.changeQuantity)) {
+                    var quantity = this.changeQuantity
+                    let found = this.items.find(function (obj) {
+                        return obj.id === quantity.id
+                    })
+                    if (found) {
+                        found.amount = this.subtract(found.amount, quantity.quantity)
+                        this.changeQuantity = {}
+                    }
+                }
+            },
+            cartQuantities() {
+                if (! this.isEmpty(this.cartQuantities)) {
+                    var quantity = this.cartQuantities
+                    for (var i = 0; i<quantity.length; i++) {
+                        let found = this.items.find(function (obj) {
+                            return obj.id === quantity[i].id
+                        })
+                        if (found) {
+                            found.amount = this.number(found.amount, quantity[i].quantity)
+                        }
+                    }
+                    this.cartQuantities = {}
+                }
             }
         },
         methods: {
@@ -97,6 +141,7 @@
                 this.checkoutBool = true
             },
             clear () {
+                this.cartQuantities = this.cart
                 this.checkoutBool = false;
                 this.cart = [];
                 this.cartTotal = 0;
@@ -116,7 +161,17 @@
                         return false;
                 }
                 return true;
-            }
+            },
+            increase(item) {
+                this.addQuantity = item
+            },
+            reduce(item) {
+                this.changeQuantity = item
+                console.dir(this.changeQuantity)
+            },
+            subtract (a, b) {
+                return (a * 100 - b * 100)/100
+            },
         }
     }
 </script>
